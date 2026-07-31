@@ -1,0 +1,49 @@
+name: publish
+
+# Tokenless npm publishing via OIDC "trusted publishing" (docs.npmjs.com/trusted-publishers).
+# No NPM_TOKEN secret: npm mints a short-lived credential from GitHub's OIDC token, which is why the
+# job needs `id-token: write`. Configure the matching trusted publisher on npmjs.com per package
+# (org hunta-ai, repo gather, workflow publish.yml, action "npm publish").
+#
+# Release a package by pushing a tag "<dir>-v<version>", where <dir> is the package directory:
+#   git tag verify-v0.1.0 && git push origin verify-v0.1.0   # publishes ./verify (@hunta/verify)
+# Later: cli-v0.1.0 -> ./cli (hunta), sdk-v0.1.0 -> ./sdk (@hunta/sdk).
+
+on:
+  push:
+    tags:
+      - '*-v*'
+
+permissions:
+  id-token: write   # required: lets npm verify this run via GitHub OIDC
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'            # ships npm 11 (trusted publishing needs npm >= 11.5.1)
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Ensure npm supports trusted publishing
+        run: npm install -g npm@latest
+
+      - name: Resolve package directory from the tag
+        id: pkg
+        run: echo "dir=${GITHUB_REF_NAME%-v*}" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        working-directory: ${{ steps.pkg.outputs.dir }}
+        run: npm install
+
+      - name: Test
+        working-directory: ${{ steps.pkg.outputs.dir }}
+        run: npm test --if-present
+
+      - name: Publish (OIDC trusted publishing + provenance)
+        working-directory: ${{ steps.pkg.outputs.dir }}
+        run: npm publish --access public --provenance

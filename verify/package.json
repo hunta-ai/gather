@@ -1,0 +1,43 @@
+{
+  "name": "@hunta/verify",
+  "version": "0.1.1",
+  "description": "Offline Ed25519 verification of Hunta isolation-attestation receipts. Verify, don't trust.",
+  "type": "module",
+  "bin": {
+    "hunta-verify": "src/cli.js"
+  },
+  "exports": {
+    ".": "./src/verify.js",
+    "./canonical": "./src/canonical.js"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "keywords": [
+    "attestation",
+    "ed25519",
+    "isolation",
+    "multi-tenant",
+    "agent-memory",
+    "hunta"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://hunta.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hunta-ai/gather.git",
+    "directory": "."
+  }
+}

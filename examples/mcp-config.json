@@ -1,0 +1,9 @@
+{
+  "_comment": "Drop this into any MCP client (Claude Code ~/.claude, Codex, etc.). Mint an agent key at https://console.hunta.cloud. On Estate self-host, swap the url for your own deployment.",
+  "mcpServers": {
+    "gather": {
+      "url": "https://mcp.hunta.ai/mcp",
+      "headers": { "Authorization": "Bearer <YOUR_AGENT_KEY>" }
+    }
+  }
+}

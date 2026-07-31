@@ -1,0 +1,58 @@
+{
+  "manifest": {
+    "tenant": "hunta",
+    "schema": "t_264424cc7414503a",
+    "role": "tr_264424cc7414503a",
+    "ts": "2026-07-31T09:40:25.218721+00:00",
+    "nonce": "p1-live-proof",
+    "build": "0.4.7",
+    "probe_set_version": "p4-2",
+    "attest_kid": "hunta-attest-1",
+    "mechanism": "schema-per-tenant + per-tenant role GRANT (physical) + FORCE RLS app.tenant policy (logical) + per-tenant AES-256-GCM, tenant-id AAD (crypto). DEKs are unwrapped and cached in service memory; Vault-Transit per-op decrypt is the production posture (in-RAM plaintext / TEE de-scoped to Phase-2).",
+    "boundary": {
+      "crypto_protected_columns": [
+        "memories.content_ct",
+        "facts.content_ct",
+        "facts.reason_ct",
+        "entities.name_ct"
+      ],
+      "plaintext_derived_in_tenant_schema": [
+        "embedding",
+        "content_ts",
+        "facts.dedup_hmac",
+        "facts.slot",
+        "facts.entity_ids",
+        "facts.closed_by",
+        "candidates.curated_by",
+        "candidates.lane",
+        "entities.name_hmac"
+      ],
+      "note": "content/fact/entity-name/retraction-reason are AES-256-GCM at rest (*_ct). embedding + content_ts + the per-tenant-KEYED dedup/name HMACs + slot/entity_ids are plaintext-DERIVED routing artifacts, and closed_by/curated_by/lane are token-subject AUDIT metadata (actor ids, never content) — all inside the tenant's OWN isolated schema (schema-per-tenant + FORCE RLS + role GRANT), never crossing the tenant boundary; the HMACs are unmatchable without the tenant key. Query-time plaintext in app RAM is de-scoped to Phase-2 TEE."
+    },
+    "extractor_egress": "anthropic",
+    "probes": {
+      "tables_probed": [
+        "memories",
+        "facts",
+        "entities"
+      ],
+      "physical_cross_schema_grant_denied": "54/54",
+      "logical_rls_hides_wrong_tenant": true,
+      "crypto_cross_tenant_decrypt_blocked": "23/23",
+      "dedup_hmac_key_separated": "17/17",
+      "conclusive": true,
+      "all_denied": true
+    },
+    "attestable": true
+  },
+  "alg": "Ed25519",
+  "signature": "qcmdasn0zYeXq3a2WoAB1fpdav-RqIdYZ1oVfvCx5p2xCkNL2sfoGmyrvMlHalYbktv3GzTohELxzlPgwRYUAw",
+  "public_jwk": {
+    "kty": "OKP",
+    "crv": "Ed25519",
+    "x": "u0ZiEFzRbTzSf14mi5wg8gtMght5uX2JvDDoWbdzYFM",
+    "kid": "hunta-attest-1",
+    "alg": "Ed25519",
+    "use": "sig"
+  }
+}

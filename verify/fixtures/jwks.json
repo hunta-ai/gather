@@ -1,0 +1,20 @@
+{
+  "keys": [
+    {
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "use": "sig",
+      "alg": "EdDSA",
+      "kid": "hunta-auth-1",
+      "x": "OP-H28izPTYZ_fjvylf6klNQbm4nXEbuUJW4uqWsQZk"
+    },
+    {
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "x": "u0ZiEFzRbTzSf14mi5wg8gtMght5uX2JvDDoWbdzYFM",
+      "kid": "hunta-attest-1",
+      "alg": "Ed25519",
+      "use": "sig"
+    }
+  ]
+}

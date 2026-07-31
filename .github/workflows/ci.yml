@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: shellcheck hook scripts
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y shellcheck
+          shellcheck integrations/**/scripts/*.sh examples/*.sh
+
+      - name: validate JSON manifests
+        run: |
+          for f in .claude-plugin/marketplace.json \
+                   integrations/claude-code/.claude-plugin/plugin.json \
+                   examples/mcp-config.json; do
+            echo "checking $f"
+            python3 -c "import json,sys; json.load(open('$f'))"
+          done
+
+      - name: node example parses
+        run: node --check examples/node_quickstart.mjs
+
+      - name: python example parses
+        run: python3 -m py_compile examples/python_quickstart.py

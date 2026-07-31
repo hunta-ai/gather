@@ -1,0 +1,44 @@
+{
+  "name": "hunta",
+  "version": "0.1.0",
+  "description": "The Hunta CLI: gather, recall, verify, instinct. Attestable, curated memory for AI agents.",
+  "type": "module",
+  "bin": {
+    "hunta": "src/index.js"
+  },
+  "exports": {
+    ".": "./src/client.js"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@hunta/verify": "^0.1.0"
+  },
+  "keywords": [
+    "agent-memory",
+    "mcp",
+    "attestation",
+    "cli",
+    "hunta"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://hunta.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hunta-ai/gather.git",
+    "directory": "cli"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

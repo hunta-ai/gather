@@ -1,0 +1,8 @@
+{
+  "name": "gather",
+  "description": "Deterministic org-memory invocation for Claude Code: auto-recall on every prompt (fail-open), re-inject after compaction, and loss-proof capture of session context to Gather's curated staging inbox. Nothing enters the canonical store without promotion.",
+  "version": "0.1.0",
+  "author": { "name": "hunta.ai" },
+  "homepage": "https://hunta.ai",
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "hunta",
+  "owner": { "name": "hunta.ai" },
+  "metadata": {
+    "description": "Gather invocation layer: deterministic org-memory for coding harnesses.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "gather",
+      "source": "./integrations/claude-code",
+      "description": "Deterministic org-memory for Claude Code: auto-recall on every prompt (fail-open), re-inject after compaction, loss-proof capture to Gather's curated staging inbox. Nothing enters canon without promotion."
+    }
+  ]
+}
