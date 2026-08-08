@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hunta-gather"
+version = "0.1.0"
+description = "Governed Python client for Hunta Gather attestable agent memory. Recall and propose are the default trusted path; canon-mutating calls are curate-scoped and explicit."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "hunta.ai" }]
+keywords = ["hunta", "gather", "memory", "agent", "mcp", "llm"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Typing :: Typed",
+]
+dependencies = ["httpx>=0.24"]
+
+[project.urls]
+Homepage = "https://hunta.ai/product/gather"
+Repository = "https://github.com/hunta-ai/gather"
+Issues = "https://github.com/hunta-ai/gather/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-asyncio>=0.23",
+    "respx>=0.20",
+    "ruff>=0.4",
+    "mypy>=1.8",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["hunta_gather"]
+
+[tool.hatch.build.targets.sdist]
+include = ["hunta_gather", "README.md", "LICENSE", "tests", "examples"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unused_ignores = false
+# Responses are decoded JSON (Any). Methods annotate the documented TypedDict
+# shape as a contract for callers; we do not force a cast on every return.
+warn_return_any = false
+files = ["hunta_gather"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
