@@ -14,14 +14,15 @@
 #   GATHER_RECALL_BUDGET  max injected chars   (default 1200 ≈ 300 tokens)
 #   GATHER_METRICS_FILE   JSONL instrumentation sink (default ~/.gather-metrics.jsonl)
 exec 2>/dev/null
-export _CT_HOOK_INPUT="$(cat 2>/dev/null)"
+_GATHER_HOOK_INPUT="$(cat 2>/dev/null)"
+export _GATHER_HOOK_INPUT
 [ -z "$GATHER_URL" ] && exit 0
 python3 - "$@" <<'PY' 2>/dev/null || exit 0
 import json, os, sys, time, urllib.request
 
 t0 = time.time()
 mode = "post_compact" if "--post-compact" in sys.argv[1:] else "prompt"
-raw = os.environ.get("_CT_HOOK_INPUT") or ""
+raw = os.environ.get("_GATHER_HOOK_INPUT") or ""
 try:
     hook = json.loads(raw) if raw else {}
 except Exception:

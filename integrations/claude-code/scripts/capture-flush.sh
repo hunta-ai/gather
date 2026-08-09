@@ -14,8 +14,9 @@
 #
 # Config: GATHER_URL + GATHER_TOKEN(_FILE); optional GATHER_CAPTURE=off to disable.
 exec 2>/dev/null
-export _CT_HOOK_INPUT="$(cat 2>/dev/null)"
-export _CT_EVENT="${1:-flush}"
+_GATHER_HOOK_INPUT="$(cat 2>/dev/null)"
+export _GATHER_HOOK_INPUT
+export _GATHER_EVENT="${1:-flush}"
 [ -z "$GATHER_URL" ] && exit 0
 [ "$GATHER_CAPTURE" = "off" ] && exit 0
 python3 - <<'PY' 2>/dev/null || exit 0
@@ -29,9 +30,9 @@ if not token and tf and os.path.exists(tf):
 if not base or not token:
     raise SystemExit(0)
 
-event = os.environ.get("_CT_EVENT", "flush")
+event = os.environ.get("_GATHER_EVENT", "flush")
 try:
-    hook = json.loads(os.environ.get("_CT_HOOK_INPUT") or "{}")
+    hook = json.loads(os.environ.get("_GATHER_HOOK_INPUT") or "{}")
 except Exception:
     hook = {}
 sid = hook.get("session_id", "")[:12]
