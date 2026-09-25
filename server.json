@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.hunta-ai/gather",
-  "description": "Hunta Gather: attestable memory for AI agents. A curation gate on the write path (the writer never decides), per-tenant isolation you can verify with a signed Ed25519 proof, and bi-temporal facts. MCP-native, hosted at mcp.hunta.ai.",
+  "description": "Attestable memory for AI agents: curated writes, verifiable tenant isolation, bi-temporal facts.",
   "status": "active",
   "repository": {
     "url": "https://github.com/hunta-ai/gather",
