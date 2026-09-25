@@ -1,0 +1,46 @@
+name: mcp-registry
+
+# Publishes server.json to the official MCP Registry (registry.modelcontextprotocol.io) so agents and
+# clients (VS Code, GitHub's registry mirror, Claude/Cursor directories that read it) can discover Gather.
+#
+# Auth: GitHub OIDC. The io.github.hunta-ai/* namespace is proven by this repo's identity, so no secret is
+# needed — the job only needs `id-token: write`. Runs when server.json changes on master, or on demand.
+# Re-publishing the same version is rejected by the registry; bump "version" in server.json to update.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'server.json'
+      - '.github/workflows/mcp-registry.yml'
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install mcp-publisher
+        run: |
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/').tar.gz" \
+            | tar xz mcp-publisher
+          sudo mv mcp-publisher /usr/local/bin/
+
+      - name: Validate server.json
+        run: mcp-publisher validate
+
+      - name: Login (GitHub OIDC)
+        run: mcp-publisher login github-oidc
+
+      - name: Publish
+        run: mcp-publisher publish
+
+      - name: Verify listing
+        run: |
+          sleep 10
+          curl -fsS "https://registry.modelcontextprotocol.io/v0/servers?search=io.github.hunta-ai/gather" | tee /dev/stderr | grep -q '"count":[1-9]'
