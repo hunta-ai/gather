@@ -1,0 +1,10 @@
+src
+test
+examples
+tsconfig.json
+tsup.config.ts
+vitest.config.ts
+HANDOFF.md
+*.tsbuildinfo
+.github
+node_modules

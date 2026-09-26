@@ -1,0 +1,58 @@
+{
+  "name": "@hunta/gather",
+  "version": "0.1.0",
+  "description": "Governed TypeScript client for Hunta Gather attestable agent memory. Propose and recall are the default trusted path; canon-mutating calls are curate-scoped and explicit.",
+  "license": "Apache-2.0",
+  "author": "hunta.ai",
+  "homepage": "https://hunta.ai/product/gather",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hunta-ai/gather.git",
+    "directory": "sdks/ts"
+  },
+  "bugs": {
+    "url": "https://github.com/hunta-ai/gather/issues"
+  },
+  "keywords": [
+    "hunta",
+    "gather",
+    "memory",
+    "agent",
+    "mcp",
+    "llm"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}
